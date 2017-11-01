@@ -1,6 +1,6 @@
 'use strict';
 
-const Sort = "new Govno.Procedure('(function (a, b) {\
+const Sort = 'new Govno.Procedure(\'(function (a, b) {\
   this.smaller = function() {\
     if (a.value < b.value) return 1;\
     if (a.value > b.value) return -1;\
@@ -9,10 +9,10 @@ const Sort = "new Govno.Procedure('(function (a, b) {\
     if (a.value < b.value) return -1;\
     if (a.value > b.value) return 1;\
   };\
-})').invoke();";
+})\').invoke();';
 
 const { send } = require('micro');
 
-module.exports = function (request, response) {
+module.exports = function(request, response) {
   send(response, 200, Sort);
 };

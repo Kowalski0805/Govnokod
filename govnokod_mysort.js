@@ -1,6 +1,6 @@
 'use strict';
 
-const mySort = "new Govno.Procedure('(function(rule) {\
+const mySort = 'new Govno.Procedure(\'(function(rule) {\
   var swapped = false;\
   var i = 0;\
   var that = this;\
@@ -18,10 +18,10 @@ const mySort = "new Govno.Procedure('(function(rule) {\
   };\
   go(that);\
   if (swapped) this.mySort(rule);\
-})').invoke();";
+})\').invoke();';
 
 const { send } = require('micro');
 
-module.exports = function (request, response) {
+module.exports = function(request, response) {
   send(response, 200, mySort);
 };

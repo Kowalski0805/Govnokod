@@ -8,6 +8,6 @@ const Procedure = '(function(body) {\
 
 const { send } = require('micro');
 
-module.exports = function (request, response) {
-  send(response, 200, Procedure);  
+module.exports = function(request, response) {
+  send(response, 200, Procedure);
 };

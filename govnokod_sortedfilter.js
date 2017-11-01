@@ -1,6 +1,6 @@
 'use strict';
 
-const sortedfilter = "new Govno.Procedure('(function(rule) {\
+const sortedfilter = 'new Govno.Procedure(\'(function(rule) {\
   var ok = false;\
   if((rule(this[0]) == -1) && ok == false) {\
     this.shift();\
@@ -11,10 +11,10 @@ const sortedfilter = "new Govno.Procedure('(function(rule) {\
   } else {\
     ok = true;\
   }\
-})').invoke();";
+})\').invoke();';
 
 const { send } = require('micro');
 
-module.exports = function (request, response) {
+module.exports = function(request, response) {
   send(response, 200, sortedfilter);
 };
