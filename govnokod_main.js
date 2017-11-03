@@ -23,11 +23,20 @@ const extracallbacks = res2 => {
         array.sortedfilter(new Govno.Procedure('new Govno.Sort(\
             new Govno.Num(a), new Govno.Num(20)\
         ).smaller()').invoke);
+        /*/
         console.log(array.toString());
-
-        //module.exports = function (request, response) {
-        //send(response, 200, array.toString());
-        //};
+        /*/
+        const port = 3000;
+        const hostname = '127.0.0.1';
+        const server = http.createServer((req, res) => {
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'text/plain');
+          res.end(array.toString());
+        });
+        server.listen(port, hostname, () => {
+          console.log(`Server running at http://${hostname}:${port}/`);
+        });
+        //*/
       }));
     });
   }));

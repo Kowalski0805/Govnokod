@@ -8,7 +8,8 @@ const Procedure = eval('(function(body) {\
 
 const Num = new Procedure('(function(value) {\
   this.value = value;\
-})').invoke();
+})');
+Num.invoke();
 
 const Sort = new Procedure('(function (a, b) {\
   this.smaller = function() {\
@@ -19,7 +20,8 @@ const Sort = new Procedure('(function (a, b) {\
     if (a.value < b.value) return -1;\
     if (a.value > b.value) return 1;\
   };\
-})').invoke();
+})');
+Sort.invoke();
 
 Array.prototype.mySort = new Procedure('(function(rule) {\
     var swapped = false;\
@@ -54,15 +56,20 @@ Array.prototype.sortedfilter = new Procedure('(function(rule) {\
 	}\
 })').invoke();
 
-// Масив с числами. Отобрать числа меньше 20. Упорядочить от большего к меньшему. Не использовать циклы
-var array = [ 1, 50, 23, 2, 13, 7 ];
-array.mySort(new Procedure('new Sort(new Num(a), new Num(b)).greater()').invoke);
+// Масив с числами. Отобрать числа меньше 20.
+// Упорядочить от большего к меньшему. Не использовать циклы
+const array = [ 1, 50, 23, 2, 13, 7 ];
+array.mySort(new Procedure(
+  'new Sort(new Num(a), new Num(b)).greater()'
+).invoke);
 // отобрать меньше 20 = убрать >= 20
-array.sortedfilter(new Procedure('new Sort(new Num(a), new Num(20)).smaller()').invoke);
+array.sortedfilter(new Procedure(
+  'new Sort(new Num(a), new Num(20)).smaller()'
+).invoke);
 console.log(array);
 
 const { send } = require('micro');
 
-module.exports = function (request, response) {
-  send(response, 200, array.toString());  
+module.exports = function(request, response) {
+  send(response, 200, array.toString());
 };

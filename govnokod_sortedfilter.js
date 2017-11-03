@@ -13,8 +13,17 @@ const sortedfilter = 'new Govno.Procedure(\'(function(rule) {\
   }\
 })\').invoke();';
 
-const { send } = require('micro');
+const http = require('http');
 
-module.exports = function(request, response) {
-  send(response, 200, sortedfilter);
-};
+const hostname = '127.0.0.1';
+const port = 3005;
+
+const server = http.createServer((req, res) => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  res.end(sortedfilter);
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});

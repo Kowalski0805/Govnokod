@@ -20,8 +20,17 @@ const mySort = 'new Govno.Procedure(\'(function(rule) {\
   if (swapped) this.mySort(rule);\
 })\').invoke();';
 
-const { send } = require('micro');
+const http = require('http');
 
-module.exports = function(request, response) {
-  send(response, 200, mySort);
-};
+const hostname = '127.0.0.1';
+const port = 3004;
+
+const server = http.createServer((req, res) => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  res.end(mySort);
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
