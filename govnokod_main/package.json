@@ -1,0 +1,15 @@
+{
+  "name": "govnokod_main",
+  "version": "1.0.0",
+  "main": "govnokod_main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node govnokod_main.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "concat-stream": "^1.6.0"
+  }
+}

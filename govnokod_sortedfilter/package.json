@@ -1,0 +1,12 @@
+{
+  "name": "govnokod_sortedfilter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "govnokod_sortedfilter.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node govnokod_sortedfilter.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,12 @@
+{
+  "name": "govnokod_num",
+  "version": "1.0.0",
+  "description": "",
+  "main": "govnokod_num.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node govnokod_num.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
