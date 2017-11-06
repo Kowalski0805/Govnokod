@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "concat-stream": "^1.6.0"
+    "concat-stream": "^1.6.0",
+    "dnode": "^1.2.2"
   }
 }

@@ -1,31 +1,26 @@
 'use strict';
 const http = require('http');
-const bl = require('concat-stream');
 
 const Govno = {};
+const dnode = require('dnode');
 
-const extracallbacks = res2 => {
-  res2.setEncoding('utf8');
-  res2.pipe(bl(data2 => {
-    Array.prototype.mySort = eval(data2);
-    http.get('http://govno.sortedfilter:3000', res3 => {
-      res3.setEncoding('utf8');
-      res3.pipe(bl(data3 => {
-        Array.prototype.sortedfilter = eval(data3);
-        // Масив с числами. Отобрать числа меньше 20.
-        // Упорядочить от большего к меньшему.
-        // Не использовать циклы
+function moreCallbacks(mysortremote) {
+  mysortremote.mySort(null, (err, data) => {
+    Array.prototype.mySort = new Govno.Procedure(data).invoke();
+    const filterclient = dnode.connect(3000, 'govno.sortedfilter');
+    filterclient.on('remote', (filterremote) => {
+      filterremote.sortedfilter(null, (err, data) => {
+        Array.prototype.sf = new Govno.Procedure(data).invoke();
+
         const array = [ 1, 2, 44, 19, 50, 23, 2, 13, 7 ];
         array.mySort(new Govno.Procedure('new Govno.Sort(\
-            new Govno.Num(a), new Govno.Num(b)\
+          new Govno.Num(a), new Govno.Num(b)\
         ).greater()').invoke);
         // отобрать меньше 20 = убрать >= 20
-        array.sortedfilter(new Govno.Procedure('new Govno.Sort(\
-            new Govno.Num(a), new Govno.Num(20)\
+        array.sf(new Govno.Procedure('new Govno.Sort(\
+          new Govno.Num(a), new Govno.Num(20)\
         ).smaller()').invoke);
-        /*/
-        console.log(array.toString());
-        /*/
+
         const port = 3000;
         const hostname = '0.0.0.0';
         const server = http.createServer((req, res) => {
@@ -36,28 +31,30 @@ const extracallbacks = res2 => {
         server.listen(port, hostname, () => {
           console.log(`Server running at http://${hostname}:${port}/`);
         });
-        //*/
-      }));
+      });
     });
-  }));
-};
+  });
+}
 
-http.get('http://govno.procedure:3000', res => {
-  res.setEncoding('utf8');
-  res.pipe(bl(data => {
+const procedureclient = dnode.connect(3000, 'govno.procedure');
+procedureclient.on('remote', (procedureremote) => {
+  procedureremote.procedure(null, (err, data) => {
     Govno.Procedure = eval(data);
-    http.get('http://govno.num:3000', res0 => {
-      res0.setEncoding('utf8');
-      res0.pipe(bl(data => {
-        Govno.Num = eval(data);
-        http.get('http://govno.sort:3000', res1 => {
-          res1.setEncoding('utf8');
-          res1.pipe(bl(data1 => {
-            Govno.Sort = eval(data1);
-            http.get('http://govno.mysort:3000', extracallbacks);
-          }));
+    const numclient = dnode.connect(3000, 'govno.num');
+    numclient.on('remote', (numremote) => {
+      numremote.num(null, (err, data) => {
+        Govno.Num = new Govno.Procedure(data).invoke();
+        const sortclient = dnode.connect(3000, 'govno.sort');
+        sortclient.on('remote', (sortremote) => {
+          sortremote.sort(null, (err, data) => {
+            Govno.Sort = new Govno.Procedure(data).invoke();
+            const mysortclient = dnode.connect(3000, 'govno.mysort');
+            mysortclient.on('remote', (mysortremote) => {
+              moreCallbacks(mysortremote);
+            });
+          });
         });
-      }));
+      });
     });
-  }));
+  });
 });
